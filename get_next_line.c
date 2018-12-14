@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 12:25:29 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/14 10:41:55 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/14 16:05:39 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,44 +55,43 @@ int		ft_read_fd(const int fd, char **buff)
 			return (0);
 		(*buff) = ft_strjoin((*buff), read_buff);
 	}
+	free(read_buff);
 	return (1);
 }
 
 int		get_next_line(const int fd, char **line)
 {
-	static char	*buff;
+	static char	**buff;
 	char		*tmp;
-	int			i;
 	int			j;
-	int gg;
+	int			gg;
 
 	j = 0;
 	tmp = ft_strnew(BUFF_SIZE);
 	if (!buff)
 	{
-		buff = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
-		buff[BUFF_SIZE] = '\0';
+		buff = (char **)malloc(sizeof(char *) * (LIMIT_FD + 1));
+		buff[LIMIT_FD] = 0;
 	}
-
 	if (!buff || fd < 0 || line == NULL || read(fd, NULL, 0))		//	проверка на валидность
 		return (-1);
-
-	i = ft_read_fd(fd, &buff);							//	чтение файла
-	if (i == -1)
+	if (buff[fd] == NULL)
+		buff[fd] = ft_strnew(BUFF_SIZE);
+	if (ft_read_fd(fd, &buff[fd]) == -1)				//	чтение файла
 		return (-1);
 	// printf("buff\n%s\n", buff);
-	gg = ft_check_end(buff, &tmp);							//	вставляет в tmp обрезанную до '\n' из buff строку
-	buff = ft_buff_trimmer(buff);						//	возвращает обрезанный buff
+	gg = ft_check_end(buff[fd], &tmp);						//	вставляет в tmp обрезанную до '\n' из buff строку
+	buff[fd] = ft_buff_trimmer(buff[fd]);						//	возвращает обрезанный buff
 	// printf("tmp\n%s\n", tmp);
 	(*line) = tmp;
-	while ((tmp[j] != '\0' || buff[j] != '\0') && j < 2)
+	while ((tmp[j] != '\0') && j < 2)
 		++j;
-	if (j > 0 || i == 1)
+	if (j > 0)
 		return (1);
 	return (gg);
 }
-/*
-int		main(int ac, char **av)
+
+/*int		main(int ac, char **av)
 {
 	int		fd;
 	char	*line;
@@ -110,13 +109,8 @@ int		main(int ac, char **av)
 			return (-1);
 		}
 		while ((b = get_next_line(fd, &line)))
-		{
-			printf("return %d | ", b);
 			printf("%s\n", line);
-			free(line);
-		}
 		b = get_next_line(fd, &line);
-		printf("return %d | ", b);
 		printf("%s\n", line);
 	}
 	else
