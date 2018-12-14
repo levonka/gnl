@@ -6,14 +6,14 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 14:34:02 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/13 10:34:02 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/14 09:56:34 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 16
+# define BUFF_SIZE 32
 # define LIMIT_FD 11000
 
 #include <sys/types.h>		//	содержит тип mode_t.

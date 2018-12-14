@@ -6,7 +6,7 @@
 #    By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/08 15:24:16 by agottlie          #+#    #+#              #
-#    Updated: 2018/12/12 17:57:31 by agottlie         ###   ########.fr        #
+#    Updated: 2018/12/14 09:56:48 by agottlie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,9 @@ m: all
 s: all
 	./a.out some.txt
 
+s2: all
+	./a.out some2.txt
+
 clean:
 	@/bin/rm -f $(OBJ)
 
@@ -43,3 +46,4 @@ fclean: clean
 	@/bin/rm -f a.out
 
 re: fclean all
+
