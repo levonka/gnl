@@ -6,7 +6,7 @@
 /*   By: agottlie <agottlie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/12 12:25:29 by agottlie          #+#    #+#             */
-/*   Updated: 2018/12/18 10:36:28 by agottlie         ###   ########.fr       */
+/*   Updated: 2018/12/18 11:53:21 by agottlie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	ft_read_fd(const int fd, char **s)
 int		get_next_line(const int fd, char **line)
 {
 	static char	**buff;
+	char		*tmp2;
 	int			j;
 	size_t		i;
-	char		*tmp2;
 
 	i = 0;
 	j = 0;
-	if (fd < 0 || line == NULL || read(fd, NULL, 0))
+	if (fd < 0 || read(fd, NULL, 0))
 		return (-1);
 	if (!buff)
 		buff = (char **)malloc(sizeof(char *) * (LIMIT_FD));
@@ -50,7 +50,7 @@ int		get_next_line(const int fd, char **line)
 		i++;
 	if (i == 0 && buff[fd][i] == '\0')
 	{
-		tmp2 = ft_strdup("");
+		*line = ft_strdup("");
 		return (0);
 	}
 	*line = ft_strsub(buff[fd], 0, i);
@@ -59,11 +59,10 @@ int		get_next_line(const int fd, char **line)
 		tmp2 = ft_strdup("");
 		ft_strdel(&buff[fd]);
 		buff[fd] = tmp2;
-		return (0);
+		return (1);
 	}
 	else
 	{
-		*line = ft_strsub(buff[fd], 0, i);
 		tmp2 = ft_strsub(buff[fd], i + 1, ft_strlen(buff[fd]));
 		ft_strdel(&buff[fd]);
 		buff[fd] = tmp2;
@@ -71,15 +70,14 @@ int		get_next_line(const int fd, char **line)
 	}
 }
 /*
-int		main(int ac, char **av)
+int		main()
 {
 	int		fd;
 	char	*line;
 	int		res;
 
-	res = ac;
 	line = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
-	fd = open(av[1], O_RDONLY);
+	fd = open("/Users/agottlie/projects/get_next_line/gnl/some.txt", O_RDONLY);
 	if (fd < 0)
 	{
 		printf("Wrong name of file\n");
