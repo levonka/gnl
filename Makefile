@@ -33,10 +33,10 @@ m: all
 	./a.out Makefile
 
 s: all
-	./a.out some.txt
+	./a.out sample.txt
 
 s2: all
-	./a.out some2.txt
+	./a.out sample2.txt
 
 clean:
 	@/bin/rm -f $(OBJ)

@@ -77,7 +77,7 @@ int		main()
 	int		res;
 
 	line = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
-	fd = open("/Users/agottlie/projects/get_next_line/gnl/some.txt", O_RDONLY);
+	fd = open("/Users/agottlie/projects/get_next_line/gnl/sample.txt", O_RDONLY);
 	if (fd < 0)
 	{
 		printf("Wrong name of file\n");
